@@ -1,0 +1,30 @@
+
+<div class="posts">
+  <% @posts.each do |post| %>
+    <section class="post">
+      <!-- post view -->
+      <div class="user">
+        <div class="avatar">
+          <% if post.user.avatar.attached? %>
+            <%= link_to user_path(post.user) do %>
+              <%= image_tag post.user.avatar %>
+            <% end %>
+          <% end %>
+        </div>
+        <%= link_to post.user.username, user_path(post.user), class: 'username' %>
+      </div>
+      <%= image_tag post.image, class: 'main-image' if post.image.attached? %>
+      <div class="description">
+        <% post.description.to_s.split(' ').each do |word| %>
+          <% if word.start_with?('#') %>
+            <%= link_to word, search_path(query: word) %>
+          <%else %>
+            <%= word %>
+          <%end %>
+        <% end %>
+      </div>
+
+    </section>
+  <% end %>
+  <%= paginate @posts %>
+</div>
